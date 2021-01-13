@@ -7,7 +7,7 @@ const client = new FusionAuthClient('noapikeyneeded', 'http://localhost:9011');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', {user: req.session.user, title: 'FusionAuth Example', clientId: clientId});
+  res.render('index', {user: req.session.user, title: 'Pied Piper App', clientId: clientId});
 });
 
 /* OAuth return from FusionAuth */
@@ -16,7 +16,7 @@ router.get('/oauth-redirect', function (req, res, next) {
   client.exchangeOAuthCodeForAccessToken(req.query.code,
                                          clientId,
                                          clientSecret,
-                                         'http://localhost:3000/oauth-redirect')
+                                         'http://piedpiper.local:3000/oauth-redirect')
       .then((response) => {
         return client.retrieveUserUsingJWT(response.response.access_token);
       })
@@ -37,7 +37,7 @@ router.get('/oauth-redirect', function (req, res, next) {
   // client.exchangeOAuthCodeForAccessToken(req.query.code,
   //                                        clientId,
   //                                        clientSecret,
-  //                                        'http://localhost:3000/oauth-redirect')
+  //                                        'http://piedpier.local:3000/oauth-redirect')
   //     .then((response) => {
   //       res.cookie('access_token', response.response.access_token, {httpOnly: true});
   //       res.cookie('refresh_token', response.response.refresh_token, {httpOnly: true});
