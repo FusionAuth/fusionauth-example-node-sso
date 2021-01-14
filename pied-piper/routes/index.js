@@ -7,7 +7,9 @@ const client = new FusionAuthClient('noapikeyneeded', 'http://localhost:9011');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', {user: req.session.user, title: 'Pied Piper App', clientId: clientId});
+
+  const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2Fpiedpiper.local%3A3000%2Foauth-redirect&scope=offline_access';
+  res.render('index', {user: req.session.user, title: 'Pied Piper App', clientId: clientId, loginUrl: loginUrl});
 });
 
 /* OAuth return from FusionAuth */

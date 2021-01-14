@@ -6,6 +6,6 @@ block content
   if user
     p Hello #{user.firstName}
   else
-    a(href='http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2Fhooli.local%3A3001%2Foauth-redirect&scope=offline_access') Login
+    a(href=loginUrl) Login
 
   p Welcome to #{title}
