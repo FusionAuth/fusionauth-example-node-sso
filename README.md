@@ -8,17 +8,17 @@ This assumes you already have a running FusionAuth instance, user and applicatio
 
 * Create two local aliases in your DNS: `hooli.local` and `piedpiper.local`, both resolving to `127.0.0.1`.
 * Create two applications, `Hooli` and `Pied Piper`
- * Update the `Hooli` FusionAuth application to allow a redirect of `http://hooli.local:3001/oauth-redirect`
- * Update the `Pied Piper` FusionAuth application to allow a redirect of `http://piedpiper.local:3000/oauth-redirect`
+  * Update the `Hooli` FusionAuth application to allow a redirect of `http://hooli.local:3001/oauth-redirect`
+  * Update the `Pied Piper` FusionAuth application to allow a redirect of `http://piedpiper.local:3000/oauth-redirect`
 * Make sure your user has a first name. Register your user for both the applications.
 * In the `hooli` directory, run:
- * `npm install`
- * update `routes/index.js` with the client id and client secret of your FusionAuth application.
- * `PORT=3001 npm start`
+  * `npm install`
+  * update `routes/index.js` with the client id and client secret of your FusionAuth application.
+  * `PORT=3001 npm start`
 * In the `piedpiper` directory, run:
- * `npm install`
- * update `routes/index.js` with the client id and client secret of your FusionAuth application.
- * `PORT=3000 npm start`
+  * `npm install`
+  * update `routes/index.js` with the client id and client secret of your FusionAuth application.
+  * `PORT=3000 npm start`
 
 Go to `http://hooli.local:3001/` and login with the previously created user. 
 
