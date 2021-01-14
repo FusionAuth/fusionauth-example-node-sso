@@ -1,6 +1,6 @@
 # FusionAuth Node.js example
 
-This project is a simple example Node.js application that illustrates how to integrate with FusionAuth's OAuth system using the Authorization Code grant.
+This project is two simple example Node.js applications that illustrates how you can easily implement SSO using FusionAuth.
 
 ## To run
 
@@ -25,3 +25,5 @@ Go to `http://hooli.local:3001/` and login with the previously created user.
 You should see 'Hello Richard'.
 
 Then click on the 'Pied Piper' link to go to http://piedpiper.local:3000`. You won't be prompted to sign in again, but will automatically be logged in.
+
+Click 'logout' and you'll be logged out of both applications.
