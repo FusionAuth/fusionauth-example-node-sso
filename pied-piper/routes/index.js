@@ -4,12 +4,20 @@ const {FusionAuthClient} = require('@fusionauth/typescript-client');
 const clientId = '85a03867-dccf-4882-adde-1a79aeec50df';
 const clientSecret = '7gh9U0O1wshsrVVvflccX-UL2zxxsYccjdw8_rOfsfE';
 const client = new FusionAuthClient('noapikeyneeded', 'http://localhost:9011');
+const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2Fpiedpiper.local%3A3000%2Foauth-redirect&scope=offline_access';
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
-  const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2Fpiedpiper.local%3A3000%2Foauth-redirect&scope=offline_access';
+  if (!req.session.user) {
+     res.redirect(302, loginUrl);
+  }
   res.render('index', {user: req.session.user, title: 'Pied Piper App', clientId: clientId, loginUrl: loginUrl});
+});
+
+/* Login page if we aren't logged in */
+router.get('/login', function (req, res, next) {
+  res.render('login', {title: 'Pied Piper Login', clientId: clientId, loginUrl: loginUrl});
 });
 
 /* OAuth return from FusionAuth */

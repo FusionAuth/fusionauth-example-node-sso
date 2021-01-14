@@ -4,12 +4,20 @@ const {FusionAuthClient} = require('@fusionauth/typescript-client');
 const clientId = 'dbfc584e-8b46-4e73-9046-cba9938ec4e0';
 const clientSecret = 'g52dmIF-2PCYlv4Pio0gd_vvd_ZO2TW8aRZpCER4QZw';
 const client = new FusionAuthClient('noapikeyneeded', 'http://localhost:9011');
+const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2Fhooli.local%3A3001%2Foauth-redirect&scope=offline_access';
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
-  const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2Fhooli.local%3A3001%2Foauth-redirect&scope=offline_access';
-  res.render('index', {user: req.session.user, title: 'Hooli Example', clientId: clientId, loginUrl: loginUrl});
+  if (!req.session.user) {
+     res.redirect(302, loginUrl);
+  }
+  res.render('index', {user: req.session.user, title: 'Hooli App', clientId: clientId, loginUrl: loginUrl});
+});
+
+/* Login page if we aren't logged in */
+router.get('/login', function (req, res, next) {
+  res.render('login', {title: 'Hooli Login', clientId: clientId, loginUrl: loginUrl});
 });
 
 /* OAuth return from FusionAuth */
