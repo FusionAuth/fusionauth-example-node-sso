@@ -22,6 +22,6 @@ This assumes you already have a running FusionAuth instance, user and applicatio
 
 Go to `http://hooli.local:3001/` and login with the previously created user. 
 
-You should see 'Hello <name>'.
+You should see 'Hello Richard'.
 
-Then go to http://piedpiper.local:3000` and click login. You won't be prompted to sign in again, but will automatically be logged in.
+Then click on the 'Pied Piper' link to go to http://piedpiper.local:3000`. You won't be prompted to sign in again, but will automatically be logged in.
