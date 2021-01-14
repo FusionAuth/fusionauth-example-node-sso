@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const {FusionAuthClient} = require('@fusionauth/typescript-client');
+
 const clientId = '85a03867-dccf-4882-adde-1a79aeec50df';
 const clientSecret = '7gh9U0O1wshsrVVvflccX-UL2zxxsYccjdw8_rOfsfE';
 const client = new FusionAuthClient('noapikeyneeded', 'http://localhost:9011');
-const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2Fpiedpiper.local%3A3000%2Foauth-redirect&scope=offline_access';
+const hostName = 'piedpiper.local';
+const port = 3000;
+
+const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access';
 const logoutUrl = 'http://localhost:9011/oauth2/logout?client_id='+clientId;
 
 /* GET home page. */
@@ -39,7 +43,7 @@ router.get('/oauth-redirect', function (req, res, next) {
   client.exchangeOAuthCodeForAccessToken(req.query.code,
                                          clientId,
                                          clientSecret,
-                                         'http://piedpiper.local:3000/oauth-redirect')
+                                         'http://'+hostName+':'+port+'/oauth-redirect')
       .then((response) => {
         return client.retrieveUserUsingJWT(response.response.access_token);
       })
@@ -55,17 +59,6 @@ router.get('/oauth-redirect', function (req, res, next) {
       .then((response) => {
         res.redirect(302, '/');
       }).catch((err) => {console.log("in error"); console.error(JSON.stringify(err));});
-      
-  // This code pushes the access and refresh tokens back to the browser as secure, HTTP-only cookies
-  // client.exchangeOAuthCodeForAccessToken(req.query.code,
-  //                                        clientId,
-  //                                        clientSecret,
-  //                                        'http://piedpier.local:3000/oauth-redirect')
-  //     .then((response) => {
-  //       res.cookie('access_token', response.response.access_token, {httpOnly: true});
-  //       res.cookie('refresh_token', response.response.refresh_token, {httpOnly: true});
-  //       res.redirect(302, '/');
-  //     }).catch((err) => {console.log("in error"); console.error(JSON.stringify(err));});
 });
 
 module.exports = router;
