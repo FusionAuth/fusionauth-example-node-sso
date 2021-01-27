@@ -17,6 +17,7 @@ router.get('/', function (req, res, next) {
 
   if (!req.session.user) {
      res.redirect(302, loginUrl);
+     return;
   }
   res.render('index', {user: req.session.user, title: title + ' App', clientId: clientId, logoutUrl: "/logout", loginUrl: loginUrl});
 });

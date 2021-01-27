@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const {FusionAuthClient} = require('@fusionauth/typescript-client');
 
-
 const clientId = 'dbfc584e-8b46-4e73-9046-cba9938ec4e0';
 const clientSecret = 'g52dmIF-2PCYlv4Pio0gd_vvd_ZO2TW8aRZpCER4QZw';
 const client = new FusionAuthClient('noapikeyneeded', 'http://localhost:9011');
 const hostName = 'hooli.local';
 const port = 3001;
+const title = 'Hooli';
 
 const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access';
 const logoutUrl = 'http://localhost:9011/oauth2/logout?client_id='+clientId;
@@ -17,6 +17,7 @@ router.get('/', function (req, res, next) {
 
   if (!req.session.user) {
      res.redirect(302, loginUrl);
+     return;
   }
   res.render('index', {user: req.session.user, title: title + ' App', clientId: clientId, logoutUrl: "/logout", loginUrl: loginUrl});
 });
