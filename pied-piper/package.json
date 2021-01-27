@@ -1,5 +1,5 @@
 {
-  "name": "fusionauth-node-example",
+  "name": "fusionauth-node-example-sso-piedpiper",
   "version": "0.0.0",
   "private": true,
   "scripts": {
