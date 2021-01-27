@@ -18,12 +18,12 @@ router.get('/', function (req, res, next) {
   if (!req.session.user) {
      res.redirect(302, loginUrl);
   }
-  res.render('index', {user: req.session.user, title: 'Hooli App', clientId: clientId, logoutUrl: "/logout", loginUrl: loginUrl});
+  res.render('index', {user: req.session.user, title: title + ' App', clientId: clientId, logoutUrl: "/logout", loginUrl: loginUrl});
 });
 
 /* Login page if we aren't logged in */
 router.get('/login', function (req, res, next) {
-  res.render('login', {title: 'Hooli Login', clientId: clientId, loginUrl: loginUrl});
+  res.render('login', {title: title + ' Login', clientId: clientId, loginUrl: loginUrl});
 });
 
 /* Logout page */

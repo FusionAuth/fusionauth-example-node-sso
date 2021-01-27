@@ -7,6 +7,7 @@ const clientSecret = '7gh9U0O1wshsrVVvflccX-UL2zxxsYccjdw8_rOfsfE';
 const client = new FusionAuthClient('noapikeyneeded', 'http://localhost:9011');
 const hostName = 'piedpiper.local';
 const port = 3000;
+const title = 'Pied Piper';
 
 const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access';
 const logoutUrl = 'http://localhost:9011/oauth2/logout?client_id='+clientId;
@@ -17,12 +18,12 @@ router.get('/', function (req, res, next) {
   if (!req.session.user) {
      res.redirect(302, loginUrl);
   }
-  res.render('index', {user: req.session.user, title: 'Pied Piper App', clientId: clientId, logoutUrl: "/logout", loginUrl: loginUrl});
+  res.render('index', {user: req.session.user, title: title + ' App', clientId: clientId, logoutUrl: "/logout", loginUrl: loginUrl});
 });
 
 /* Login page if we aren't logged in */
 router.get('/login', function (req, res, next) {
-  res.render('login', {title: 'Pied Piper Login', clientId: clientId, loginUrl: loginUrl});
+  res.render('login', {title: title + ' Login', clientId: clientId, loginUrl: loginUrl});
 });
 
 /* Logout page */

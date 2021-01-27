@@ -3,10 +3,7 @@ extends layout
 
 block content
   h1= title
-  if user
-    p Hello #{user.firstName}
-    a(href=logoutUrl) Log out
-  else
-    a(href=loginUrl) Log in
+  p Hello #{user.firstName}
+  a(href=logoutUrl) Log out
 
   p Welcome to #{title}
