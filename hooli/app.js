@@ -17,7 +17,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(expressSession({resave: false, saveUninitialized: false, secret: 'fusionauth-node-example'}));
+app.use(expressSession({resave: false, saveUninitialized: false, secret: 'fusionauth-node-example', cookie: {maxAge: 60000}}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
