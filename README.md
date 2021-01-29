@@ -8,8 +8,10 @@ This assumes you already have a running FusionAuth instance, user and applicatio
 
 * Create two local aliases in your DNS: `hooli.local` and `piedpiper.local`, both resolving to `127.0.0.1`.
 * Create two applications, `Hooli` and `Pied Piper`
-  * Update the `Hooli` FusionAuth application to allow a redirect of `http://hooli.local:3001/oauth-redirect`
   * Update the `Pied Piper` FusionAuth application to allow a redirect of `http://piedpiper.local:3000/oauth-redirect`
+  * Update the `Pied Piper` FusionAuth application to have a logout url of `http://piedpiper.local:3000/endsession`
+  * Update the `Hooli` FusionAuth application to allow a redirect of `http://hooli.local:3001/oauth-redirect`
+  * Update the `Hooli` FusionAuth application to have a logout url of `http://hooli.local:3001/endsession`
 * Make sure your user has a first name. Register your user for both the applications.
 * In the `piedpiper` directory, run:
   * `npm install`
@@ -26,4 +28,4 @@ You should see 'Hello user'.
 
 Then click on the 'Pied Piper' link in the menu to go to `http://piedpiper.local:3000`. You won't be prompted to sign in again, but will automatically be logged in.
 
-Click 'logout' and you'll be logged out of both applications. Due to http limitations, this only works with FireFox. If you want to have it work with Chrome or Safari, you need to use TLS.
+Click 'logout' and you'll be logged out of both applications. Due to http limitations, log out only works with FireFox. If you want to have it work with Chrome or Safari, you need to use TLS.
