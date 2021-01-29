@@ -4,17 +4,17 @@ const {FusionAuthClient} = require('@fusionauth/typescript-client');
 
 const clientId = '85a03867-dccf-4882-adde-1a79aeec50df';
 const clientSecret = '7gh9U0O1wshsrVVvflccX-UL2zxxsYccjdw8_rOfsfE';
-const client = new FusionAuthClient('noapikeyneeded', 'http://localhost:9011');
-const hostName = 'piedpiper.local';
+const client = new FusionAuthClient('noapikeyneeded', 'https://local.fusionauth.io');
+const hostName = 'piedpiper.fusionauth.io';
 const port = 3000;
 const title = 'Pied Piper';
 
-const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access';
-const logoutUrl = 'http://localhost:9011/oauth2/logout?client_id='+clientId;
+const redirectUrl = 'https://'+hostName+'/oauth-redirect';
+const loginUrl = 'https://local.fusionauth.io/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri='+encodeURIComponent(redirectUrl)+'&scope=offline_access';
+const logoutUrl = 'https://local.fusionauth.io/oauth2/logout?client_id='+clientId;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-
   if (!req.session.user) {
      res.redirect(302, loginUrl);
      return;
@@ -29,13 +29,18 @@ router.get('/login', function (req, res, next) {
 
 /* Logout page */
 router.get('/logout', function (req, res, next) {
-  req.session.user = null;
+  req.session.destroy();
   res.redirect(302, logoutUrl);
 });
 
 /* End session for global SSO logout */
 router.get('/endsession', function (req, res, next) {
-  req.session.user = null;
+  //console.log("abc");
+  //console.log(req);
+  //console.log(req.session.user);
+  //console.log(req.session.user != null);
+  //console.log(!req.session.user);
+  req.session.destroy();
   res.redirect(302, "/login");
 });
 
@@ -45,7 +50,7 @@ router.get('/oauth-redirect', function (req, res, next) {
   client.exchangeOAuthCodeForAccessToken(req.query.code,
                                          clientId,
                                          clientSecret,
-                                         'http://'+hostName+':'+port+'/oauth-redirect')
+                                         redirectUrl)
       .then((response) => {
         return client.retrieveUserUsingJWT(response.response.access_token);
       })
@@ -57,6 +62,7 @@ router.get('/oauth-redirect', function (req, res, next) {
         }
       
         req.session.user = response.response.user;
+        req.session.application = "piedpiper";
       })
       .then((response) => {
         res.redirect(302, '/');
