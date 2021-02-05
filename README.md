@@ -1,6 +1,6 @@
-# FusionAuth Node.js example
+# FusionAuth Node.js SSO example
 
-This project is two simple example Node.js applications that illustrates how you can easily implement SSO using FusionAuth.
+This project is two simple example Node.js applications that illustrates how you can easily implement single sign-on (SSO) using FusionAuth.
 
 ## To run
 
