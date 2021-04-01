@@ -13,7 +13,7 @@ This assumes you already have a running FusionAuth instance, user and applicatio
   * Update the `Hooli` FusionAuth application to allow a redirect of `http://hooli.local:3001/oauth-redirect`
   * Update the `Hooli` FusionAuth application to have a logout url of `http://hooli.local:3001/endsession`
 * Make sure your user has a first name. Register your user for both the applications.
-* In the `piedpiper` directory, run:
+* In the `pied-piper` directory, run:
   * `npm install`
   * update `routes/index.js` with the client id and client secret of your FusionAuth application.
   * `PORT=3000 npm start`
