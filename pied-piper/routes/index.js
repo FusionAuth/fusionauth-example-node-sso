@@ -2,15 +2,17 @@ const express = require('express');
 const router = express.Router();
 const {FusionAuthClient} = require('@fusionauth/typescript-client');
 
-const clientId = '85a03867-dccf-4882-adde-1a79aeec50df';
-const clientSecret = '_qsqMTIZt_T5yPb9PJqDeIAHf-hMq0587xN87XHr3lY';
-const client = new FusionAuthClient('noapikeyneeded', 'http://localhost:9011');
+const clientId = 'f2842ff3-5c00-4349-b109-bd6f119b70fc'; // change
+const clientSecret = 'RMb7QLRD_Zae8ajawQjwoppqavFgFKiBSehJv4yuOKI'; // change
 const hostName = 'piedpiper.local';
+
+const fusionauthHostname = 'sandbox.fusionauth.io'
 const port = 3000;
 const title = 'Pied Piper';
 
-const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access';
-const logoutUrl = 'http://localhost:9011/oauth2/logout?client_id='+clientId;
+const client = new FusionAuthClient('noapikeyneeded', 'https://'+fusionauthHostName);
+const loginUrl = 'https://'+fusionauthHostName+'/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access%20openid';
+const logoutUrl = 'https://'+fusionauthHostName+'/oauth2/logout?client_id='+clientId;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -50,13 +52,10 @@ router.get('/oauth-redirect', function (req, res, next) {
         return client.retrieveUserUsingJWT(response.response.access_token);
       })
       .then((response) => {
-        if (response.response.user.registrations.length == 0 || (response.response.user.registrations.filter(reg => reg.applicationId === clientId)).length == 0) {
-          console.log("User not registered, not authorized.");
-          res.redirect(302, '/');
-          return;
-        }
-      
+        console.log(hostName);
+        console.log(response.response);
         req.session.user = response.response.user;
+        return response;
       })
       .then((response) => {
         res.redirect(302, '/');

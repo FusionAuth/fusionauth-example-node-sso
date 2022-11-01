@@ -22,10 +22,12 @@ You need to have a valid SSL certificate, otherwise the cookies are not set corr
 * In the `pied-piper` directory, run:
   * `npm install`
   * update `routes/index.js` with the client id and client secret of your FusionAuth application.
+  * update `routes/index.js` with the correct FusionAuth hostname.
   * `PORT=3000 npm start`
 * In the `hooli` directory, run:
   * `npm install`
   * update `routes/index.js` with the client id and client secret of your FusionAuth application.
+  * update `routes/index.js` with the correct FusionAuth hostname.
   * `PORT=3001 npm start`
 
 Go to `http://hooli.local:3001/` and login with the previously created user. 

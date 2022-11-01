@@ -2,15 +2,17 @@ const express = require('express');
 const router = express.Router();
 const {FusionAuthClient} = require('@fusionauth/typescript-client');
 
-const clientId = '12c5424e-a44f-477b-9dab-7e12d45e5f1e';
-const clientSecret = 'bYAGRDb_Jr6VxLFFSteHgsIDFfhQ6V8gTu3tnng2mTk';
-const client = new FusionAuthClient('noapikeyneeded', 'http://localhost:9011');
+const clientId = '6e8e047f-fdcd-4cc7-9b04-ad05d5ec22de'; // change
+const clientSecret = '8rQTsSzgTNw1dfpZALB_iEs_MBamDqsxLhU36b_P1QU'; // change
 const hostName = 'hooli.local';
+
+const fusionauthHostname = 'sandbox.fusionauth.io'
 const port = 3001;
 const title = 'Hooli';
 
-const loginUrl = 'http://localhost:9011/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access';
-const logoutUrl = 'http://localhost:9011/oauth2/logout?client_id='+clientId;
+const client = new FusionAuthClient('noapikeyneeded', 'https://'+fusionauthHostName);
+const loginUrl = 'https://'+fusionauthHostName+'/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access%20openid';
+const logoutUrl = 'https://'+fusionauthHostName+'/oauth2/logout?client_id='+clientId;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -50,13 +52,10 @@ router.get('/oauth-redirect', function (req, res, next) {
         return client.retrieveUserUsingJWT(response.response.access_token);
       })
       .then((response) => {
-        if (response.response.user.registrations.length == 0 || (response.response.user.registrations.filter(reg => reg.applicationId === clientId)).length == 0) {
-          console.log("User not registered, not authorized.");
-          res.redirect(302, '/');
-          return;
-        }
-      
+        console.log(hostName);
+        console.log(response.response);
         req.session.user = response.response.user;
+        return response;
       })
       .then((response) => {
         res.redirect(302, '/');
