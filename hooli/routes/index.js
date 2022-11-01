@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const {FusionAuthClient} = require('@fusionauth/typescript-client');
 
-const clientId = 'dbfc584e-8b46-4e73-9046-cba9938ec4e0';
-const clientSecret = 'g52dmIF-2PCYlv4Pio0gd_vvd_ZO2TW8aRZpCER4QZw';
+const clientId = '12c5424e-a44f-477b-9dab-7e12d45e5f1e';
+const clientSecret = 'bYAGRDb_Jr6VxLFFSteHgsIDFfhQ6V8gTu3tnng2mTk';
 const client = new FusionAuthClient('noapikeyneeded', 'http://localhost:9011');
 const hostName = 'hooli.local';
 const port = 3001;
