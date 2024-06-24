@@ -29,7 +29,7 @@ You need to have a valid SSL certificate, otherwise the cookies are not set corr
   * update `routes/index.js` with the correct FusionAuth hostname.
   * `PORT=3001 npm start`
 
-Go to `http://hooli.local:3001/` and login with the previously created user. 
+Go to `http://hooli.local:3001/` and login with `richard@example.com`. *check 'keep me signed in'*.
 
 You should see 'Hello user'.
 
@@ -39,8 +39,7 @@ Click 'logout' and you'll be logged out of both applications.
 
 ## Known issues
 
-
-Logout only works on Firefox with http:// hosts. If you want to test with Chrome or Safari, run all hosts with valid TLS certificates.
+Logout only works with on hosts with valid TLS certificates. Setting up TLS certificates for local development is beyond the scope of this tutorial.
 
 ## Last updated
 
