@@ -32,6 +32,7 @@ const loginUrl = fusionAuthURL+'/oauth2/authorize?client_id='+clientId+'&respons
 const logoutUrl = fusionAuthURL+'/oauth2/logout?client_id='+clientId;
 //end::constants[]
 
+//tag::homepageroute[]
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
@@ -41,24 +42,32 @@ router.get('/', function (req, res, next) {
   }
   res.render('index', {user: req.session.user, title: title + ' App', clientId: clientId, logoutUrl: "/logout", loginUrl: loginUrl});
 });
+//end::homepageroute[]
 
+//tag::loginpageroute[]
 /* Login page if we aren't logged in */
 router.get('/login', function (req, res, next) {
   res.render('login', {title: title + ' Login', clientId: clientId, loginUrl: loginUrl});
 });
+//end::loginpageroute[]
 
+//tag::logoutpageroute[]
 /* Logout page */
 router.get('/logout', function (req, res, next) {
   req.session.user = null;
   res.redirect(302, logoutUrl);
 });
+//end::logoutpageroute[]
 
+//tag::endsessionroute[]
 /* End session for global SSO logout */
 router.get('/endsession', function (req, res, next) {
   req.session.user = null;
   res.redirect(302, "/login");
 });
+//end::endsessionroute[]
 
+//tag::oauthredirectroute[]
 /* OAuth return from FusionAuth */
 router.get('/oauth-redirect', function (req, res, next) {
   // This code stores the user in a server-side session
@@ -79,5 +88,6 @@ router.get('/oauth-redirect', function (req, res, next) {
         res.redirect(302, '/');
       }).catch((err) => {console.log("in error"); console.error(JSON.stringify(err));});
 });
+//end::oauthredirectroute[]
 
 module.exports = router;
