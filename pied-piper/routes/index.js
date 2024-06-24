@@ -2,17 +2,33 @@ const express = require('express');
 const router = express.Router();
 const {FusionAuthClient} = require('@fusionauth/typescript-client');
 
-const clientId = 'f2842ff3-5c00-4349-b109-bd6f119b70fc'; // change
-const clientSecret = 'RMb7QLRD_Zae8ajawQjwoppqavFgFKiBSehJv4yuOKI'; // change
+const dotenv = require('dotenv');
+dotenv.config();
+
+if (!process.env.clientId) {
+  console.error('Missing clientId from .env');
+  process.exit();
+}
+if (!process.env.clientSecret) {
+  console.error('Missing clientSecret from .env');
+  process.exit();
+}
+if (!process.env.fusionAuthURL) {
+  console.error('Missing clientSecret from .env');
+  process.exit();
+}
+const clientId = process.env.clientId;
+const clientSecret = process.env.clientSecret;
+const fusionAuthURL = process.env.fusionAuthURL;
+
 const hostName = 'piedpiper.local';
 
-const fusionauthHostname = 'sandbox.fusionauth.io'
 const port = 3000;
 const title = 'Pied Piper';
 
-const client = new FusionAuthClient('noapikeyneeded', 'https://'+fusionauthHostName);
-const loginUrl = 'https://'+fusionauthHostName+'/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access%20openid';
-const logoutUrl = 'https://'+fusionauthHostName+'/oauth2/logout?client_id='+clientId;
+const client = new FusionAuthClient('noapikeyneeded', fusionAuthURL);
+const loginUrl = fusionAuthURL+'/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access%20openid';
+const logoutUrl = fusionAuthURL+'/oauth2/logout?client_id='+clientId;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
