@@ -13,12 +13,11 @@ You need to have a valid SSL certificate, otherwise the cookies are not set corr
 ## To run
 
 * Create two local aliases in your DNS: `hooli.local` and `piedpiper.local`, both resolving to `127.0.0.1`.
-* Create two applications, `Hooli` and `Pied Piper`
-  * Update the `Pied Piper` FusionAuth application to allow a redirect of `http://piedpiper.local:3000/oauth-redirect`
-  * Update the `Pied Piper` FusionAuth application to have a logout url of `http://piedpiper.local:3000/endsession`
-  * Update the `Hooli` FusionAuth application to allow a redirect of `http://hooli.local:3001/oauth-redirect`
-  * Update the `Hooli` FusionAuth application to have a logout url of `http://hooli.local:3001/endsession`
-* Make sure your user has a first name. Register your user for both the applications.
+* Run `docker compose up -d`. This will run FusionAuth and configure it using [Kickstart](https://fusionauth.io/docs/get-started/download-and-install/development/kickstart)
+  * Two users are created, both with the password `password. 
+    * admin@example.com is an admin user that can log into the admin UI, located at http://localhost:9011.
+    * richard@example.com is a user that can log into the two application you'll start below. 
+  * To stop FusionAuth later, run `docker compose down`
 * In the `pied-piper` directory, run:
   * `npm install`
   * update `routes/index.js` with the client id and client secret of your FusionAuth application.
@@ -45,4 +44,4 @@ Logout only works on Firefox with http:// hosts. If you want to test with Chrome
 
 ## Last updated
 
-This was last reviewed Nov 2022.
+This was last reviewed Jun 2024.
