@@ -20,26 +20,24 @@ You need to have a valid SSL certificate, otherwise the cookies are not set corr
   * To stop FusionAuth later, run `docker compose down`
 * In the `pied-piper` directory, run:
   * `npm install`
-  * update `routes/index.js` with the client id and client secret of your FusionAuth application.
-  * update `routes/index.js` with the correct FusionAuth hostname.
   * `PORT=3000 npm start`
 * In the `hooli` directory, run:
   * `npm install`
-  * update `routes/index.js` with the client id and client secret of your FusionAuth application.
-  * update `routes/index.js` with the correct FusionAuth hostname.
   * `PORT=3001 npm start`
 
 Go to `http://hooli.local:3001/` and login with `richard@example.com`. *check 'keep me signed in'*.
 
 You should see 'Hello user'.
 
-Then click on the 'Pied Piper' link in the menu to go to `http://piedpiper.local:3000`. You won't be prompted to sign in again, but will automatically be logged in.
+Then click on the 'Pied Piper' link in the menu to go to `http://piedpiper.local:3000`. You won't be prompted to sign in again, but will instead automatically be logged in.
 
 Click 'logout' and you'll be logged out of both applications. 
 
 ## Known issues
 
-Logout only works with on hosts with valid TLS certificates. Setting up TLS certificates for local development is beyond the scope of this tutorial.
+Logout only works with on hosts with valid TLS certificates due to browser limitations.
+
+Setting up TLS certificates for local development is beyond the scope of this tutorial, but if you set up all three applications: piediper, hooli and FusionAuth with TLS, then logout will work.
 
 ## Last updated
 
