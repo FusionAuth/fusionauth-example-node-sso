@@ -4,11 +4,7 @@ This project is two simple example Node.js applications that illustrates how you
 
 ## Prerequisites
 
-This assumes you already have a running FusionAuth instance, user and application running with a valid TLS certificate. If you don't, please see the [5-Minute Setup Guide](https://fusionauth.io/docs/v1/tech/5-minute-setup-guide) to do so. 
-
-If you don't have easy access to a FusionAuth instance with a valid TLS certificate, try using https://sandbox.fusionauth.io for the FusionAuth server. This is a **shared** host.
-
-You need to have a valid SSL certificate, otherwise the cookies are not set correctly when the user logs in at FusionAuth. 
+Docker and the ability to edit your DNS hosts.
 
 ## To run
 
@@ -35,7 +31,7 @@ Click 'logout' and you'll be logged out of both applications.
 
 ## Known issues
 
-Logout only works with on hosts with valid TLS certificates due to browser limitations.
+Logout only works with on hosts with valid TLS certificates due to browser limitations. If you don't have easy access to a FusionAuth instance with a valid TLS certificate, try using https://sandbox.fusionauth.io for the FusionAuth server. This is a **shared** host.
 
 Setting up TLS certificates for local development is beyond the scope of this tutorial, but if you set up all three applications: piediper, hooli and FusionAuth with TLS, then logout will work.
 
