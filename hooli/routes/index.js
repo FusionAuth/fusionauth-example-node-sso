@@ -17,17 +17,28 @@ if (!process.env.fusionAuthURL) {
   console.error('Missing fusionAuthURL from .env');
   process.exit();
 }
+if (!process.env.hostName) {
+  console.error('Missing hostname from .env');
+  process.exit();
+}
+if (!process.env.otherHostName) {
+  console.error('Missing other hostname from .env');
+  process.exit();
+}
+if (!process.env.title) {
+  console.error('Missing title from .env');
+  process.exit();
+}
+
 const clientId = process.env.clientId;
 const clientSecret = process.env.clientSecret;
 const fusionAuthURL = process.env.fusionAuthURL;
-
-const hostName = 'hooli.local';
-
-const port = 3001;
-const title = 'Hooli';
+const hostName = process.env.hostName;
+const otherHostName = process.env.otherHostName;
+const title = process.env.title;
 
 const client = new FusionAuthClient('noapikeyneeded', fusionAuthURL);
-const loginUrl = fusionAuthURL+'/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access%20openid';
+const loginUrl = fusionAuthURL+'/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=https%3A%2F%2F'+hostName+'%2Foauth-redirect&scope=offline_access%20openid';
 const logoutUrl = fusionAuthURL+'/oauth2/logout?client_id='+clientId;
 
 /* GET home page. */
@@ -37,12 +48,12 @@ router.get('/', function (req, res, next) {
      res.redirect(302, loginUrl);
      return;
   }
-  res.render('index', {user: req.session.user, title: title + ' App', clientId: clientId, logoutUrl: "/logout", loginUrl: loginUrl});
+  res.render('index', {user: req.session.user, title: title + ' App', clientId: clientId, logoutUrl: "/logout", loginUrl: loginUrl, otherHostName: otherHostName});
 });
 
 /* Login page if we aren't logged in */
 router.get('/login', function (req, res, next) {
-  res.render('login', {title: title + ' Login', clientId: clientId, loginUrl: loginUrl});
+  res.render('login', {title: title + ' Login', clientId: clientId, loginUrl: loginUrl, otherHostName: otherHostName});
 });
 
 /* Logout page */
@@ -63,7 +74,7 @@ router.get('/oauth-redirect', function (req, res, next) {
   client.exchangeOAuthCodeForAccessToken(req.query.code,
                                          clientId,
                                          clientSecret,
-                                         'http://'+hostName+':'+port+'/oauth-redirect')
+                                         'https://'+hostName+'/oauth-redirect')
       .then((response) => {
         return client.retrieveUserUsingJWT(response.response.access_token);
       })
