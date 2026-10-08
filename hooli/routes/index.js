@@ -27,7 +27,7 @@ const port = 3001;
 const title = 'Hooli';
 
 const client = new FusionAuthClient('noapikeyneeded', fusionAuthURL);
-const loginUrl = fusionAuthURL+'/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access%20openid';
+const loginUrl = fusionAuthURL+'/oauth2/authorize?client_id='+clientId+'&response_type=code&redirect_uri=http%3A%2F%2F'+hostName+'%3A'+port+'%2Foauth-redirect&scope=offline_access%20openid%20profile%20email';
 const logoutUrl = fusionAuthURL+'/oauth2/logout?client_id='+clientId;
 
 /* GET home page. */
@@ -65,17 +65,24 @@ router.get('/oauth-redirect', function (req, res, next) {
                                          clientSecret,
                                          'http://'+hostName+':'+port+'/oauth-redirect')
       .then((response) => {
-        return client.retrieveUserUsingJWT(response.response.access_token);
+        return client.retrieveUserInfoFromAccessToken(response.response.access_token);
       })
       .then((response) => {
-        console.log(hostName);
-        console.log(response.response);
-        req.session.user = response.response.user;
-        return response;
-      })
-      .then((response) => {
+        const userInfo = response.response;
+        if (!userInfo?.sub) {
+          throw new Error('Missing UserInfo subject');
+        }
+        req.session.user = {
+          id: userInfo.sub,
+          email: userInfo.email,
+          firstName: userInfo.given_name,
+          lastName: userInfo.family_name
+        };
         res.redirect(302, '/');
-      }).catch((err) => {console.log("in error"); console.error(JSON.stringify(err));});
+      }).catch((err) => {
+        console.error('OAuth callback failed:', err.statusCode || err.message);
+        next(new Error('Unable to sign in. Please try again.'));
+      });
 });
 
 module.exports = router;
